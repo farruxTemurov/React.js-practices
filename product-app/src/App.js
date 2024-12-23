@@ -1,11 +1,11 @@
 import './App.css';
-import ProductOperation from './ProductOperation';
+import ProductManagement from './ProductManagement';
 
 function App() {
   return (
-    <div className="App">
+    <div className="container text-center">
       <h2>Product Management System!</h2>
-      <ProductOperation />
+      <ProductManagement />
     </div>
   );
 }
