@@ -1,11 +1,11 @@
 import './App.css';
-import UseCallbackHook from './UseCallbackHook';
+import UseMemoHook from './UseMemoHook';
 
 
 function App() {
   return (
     <div className="container text-center">
-      <UseCallbackHook />
+      <UseMemoHook />
     </div>
   );
 }
