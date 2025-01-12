@@ -1,0 +1,88 @@
+{
+  "logins": [
+    {
+      "email_id": "test@gmail.com",
+      "password": "test123",
+      "id": "4d49"
+    },
+    {
+      "email_id": "test1@gmail.com",
+      "password": "test1234",
+      "id": "c313"
+    },
+    {
+      "email_id": "akash@gmail.com",
+      "password": "akash@123",
+      "id": "0c07"
+    },
+    {
+      "email_id": "raj@gmail.com",
+      "password": "raj@123",
+      "id": "6596"
+    },
+    {
+      "id": "0c6f",
+      "email_id": "admin@gmail.com",
+      "password": "admin@123"
+    },
+    {
+      "id": "6468",
+      "email_id": "tim@gmail.com",
+      "password": "tim@0909"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Product 1",
+      "price": 100
+    },
+    {
+      "id": "2",
+      "name": "Product 2",
+      "price": 200
+    },
+    {
+      "id": "3",
+      "name": "Product 3",
+      "price": 300
+    },
+    {
+      "id": "4",
+      "name": "Product 4",
+      "price": 400
+    },
+    {
+      "id": "5",
+      "name": "Product 5",
+      "price": 500
+    }
+  ],
+  "employees": [
+    {
+      "id": "1",
+      "name": "Employee 1",
+      "salary": 10000
+    },
+    {
+      "id": "2",
+      "name": "Employee 2",
+      "salary": 20000
+    },
+    {
+      "id": "3",
+      "name": "Employee 3",
+      "salary": 30000
+    },
+    {
+      "id": "4",
+      "name": "Employee 4",
+      "salary": 40000
+    },
+    {
+      "id": "5",
+      "name": "Employee 5",
+      "salary": 50000
+    }
+  ]
+}

@@ -1,40 +1,31 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-function Login() {
+function SignUp() {
     let [email_id, setEmailId] = useState("");
     let [password, setPassword] = useState("");
     let [logins, setLogins] = useState([]);
+    let [msg, setMessage] = useState("");
     let navigate = useNavigate();
     let url = "http://localhost:3000/logins";
     useEffect(() => {
         // axios.get(url).then(result=>console.log(result.data)).catch(error=>console.log(error));
         axios.get(url).then(result => setLogins(result.data)).catch(error => console.log(error));
-    }, [])
+    }, [msg])
     let handleSubmit = (event) => {
         event.preventDefault();
-        // here we are checking only one emailId and password but in real time 
-        // we check with database using rest api calls with help of axios or fetch api
-
-        // if(email_id==="admin@gmail.com" && password==="admin@123"){
-        //         alert("successfully login")
-        //         navigate("/home")
-        // }else {
-        //         alert("failure try once again")
-        // }
-        // it check each email_id and password present in logins array 
-        // if it is present it will return that object otherwise it will return undefined
-        let result = logins.find(ll => ll.email_id === email_id && ll.password === password);
+        let result = logins.find(ll => ll.email_id === email_id);
         if (result != undefined) {
-            alert("Successful Login")
-            navigate("/about-us")
+            alert("Email already exists!");
+            navigate("/")
         } else {
-            alert("Failed, try once again")
+            let login = { email_id: email_id, password: password };
+            axios.post(url, login).then(result => { alert("Account created successfully!"); setMessage(result) }).catch(error => console.log(error));
         }
     }
     return (
         <div>
-            <h2>Login</h2>
+            <h2>Signup</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email_id">EmailId:</label>
                 <input type="email" name="email_id"
@@ -42,12 +33,12 @@ function Login() {
                 <label htmlFor="password">Password:</label>
                 <input type="password" name="password"
                     onChange={(event) => setPassword(event.target.value)} /><br /><br />
-                <input type="submit" value="Login" />
+                <input type="submit" value="SignUp" />
                 <input type="reset" value="Reset" />
             </form>
-            <Link to="/sign-up">SignUp</Link>
+            <Link to="/">Login</Link>
         </div>
     )
 }
 
-export default Login;
+export default SignUp;
