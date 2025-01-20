@@ -24,8 +24,8 @@ function reducer(state = initialState, action) {
 
     if (action.type == "ADD_PRODUCT") {
         // 1st parameter copy of state, 2nd parameter which property you want to change, 3rd parameter new value.
-        //return {...state,products:[...state.products,action.payload]}
-        return { ...state, products: state.products.concat(action.payload) }
+        return {...state,products:[...state.products,action.payload]}
+        // return { ...state, products: state.products.concat(action.payload) }
     }
 
     return state;
