@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, useMemo } from "react";
 
 const todoReducer = (state, action) => {
     switch (action.type) {
@@ -33,10 +33,21 @@ function TodoPage() {
         setNewTodo("");
     };
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const filteredTodos = useMemo(() => {
+        return todos.filter(todo =>
+            todo.text.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [todos, searchTerm]);
+
     return (
         <div style={{ padding: "20px" }}>
             <h1>Todo List</h1>
-
+            <input type="text"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                placeholder="Search the list"
+            />
             <input
                 type="text"
                 value={newTodo}
@@ -46,7 +57,7 @@ function TodoPage() {
             <button onClick={addTodo}>Add</button>
 
             <ul>
-                {todos.map(todo => (
+                {filteredTodos.map(todo => (
                     <li key={todo.id}>
                         <span
                             style={{
