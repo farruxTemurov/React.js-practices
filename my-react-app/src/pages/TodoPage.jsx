@@ -43,7 +43,7 @@ function TodoPage() {
     return (
         <div style={{ padding: "20px" }}>
             <h1>Todo List</h1>
-            <input type="text"
+            <input style={{ margin: "15px" }} type="text"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="Search the list"
