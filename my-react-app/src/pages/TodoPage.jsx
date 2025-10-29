@@ -61,6 +61,12 @@ function TodoPage() {
         setEditedText("");
     };
 
+    const showTaskStats = useMemo(() => {
+        return todos.filter(todo =>
+            todo.done
+        ).length;
+    }, [todos]);
+
 
     return (
         <div style={{ padding: "20px" }}>
@@ -77,6 +83,8 @@ function TodoPage() {
                 placeholder="Enter a new task"
             />
             <button onClick={addTodo}>Add</button>
+
+            <p>You have completed {showTaskStats} of {todos.length} tasks!</p>
 
             <ul>
                 {filteredTodos.map(todo => (
