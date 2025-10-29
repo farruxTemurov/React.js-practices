@@ -10,17 +10,28 @@ const todoReducer = (state, action) => {
             );
         case "DELETE_TODO":
             return state.filter(todo => todo.id !== action.payload);
+        case "EDIT_TODO":
+            return state.map(todo =>
+                todo.id === action.payload.id
+                    ? { ...todo, text: action.payload.text }
+                    : todo
+            );
         default:
             return state;
     }
 };
 
 function TodoPage() {
+
+    const [newTodo, setNewTodo] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [editingTodoId, setEditingTodoId] = useState(null);
+    const [editedText, setEditedText] = useState("");
+
     const [todos, dispatch] = useReducer(todoReducer, [], () => {
         const saved = localStorage.getItem("todos");
         return saved ? JSON.parse(saved) : [];
     });
-    const [newTodo, setNewTodo] = useState("");
 
     useEffect(() => {
         localStorage.setItem("todos", JSON.stringify(todos));
@@ -33,12 +44,23 @@ function TodoPage() {
         setNewTodo("");
     };
 
-    const [searchTerm, setSearchTerm] = useState("");
     const filteredTodos = useMemo(() => {
         return todos.filter(todo =>
             todo.text.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [todos, searchTerm]);
+
+    const startEditing = (todo) => {
+        setEditingTodoId(todo.id);
+        setEditedText(todo.text);
+    };
+
+    const handleSave = () => {
+        dispatch({ type: "EDIT_TODO", payload: { id: editingTodoId, text: editedText } });
+        setEditingTodoId(null);
+        setEditedText("");
+    };
+
 
     return (
         <div style={{ padding: "20px" }}>
@@ -59,25 +81,40 @@ function TodoPage() {
             <ul>
                 {filteredTodos.map(todo => (
                     <li key={todo.id}>
-                        <span
-                            style={{
-                                textDecoration: todo.done ? "line-through" : "none",
-                                cursor: "pointer"
-                            }}
-                            onClick={() =>
-                                dispatch({ type: "TOGGLE_TODO", payload: todo.id })
-                            }
-                        >
-                            {todo.text}
-                        </span>
+                        {todo.id === editingTodoId ? (
+                            <input
+                                type="text"
+                                value={editedText}
+                                onChange={(e) => setEditedText(e.target.value)}
+                            />
+                        ) : (
+                            <span
+                                style={{
+                                    textDecoration: todo.done ? "line-through" : "none",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() =>
+                                    dispatch({ type: "TOGGLE_TODO", payload: todo.id })
+                                }
+                            >
+                                {todo.text}
+                            </span>
+                        )}
+
                         <button
                             onClick={() =>
                                 dispatch({ type: "DELETE_TODO", payload: todo.id })
                             }
-                            style={{ marginLeft: "10px" }}
+                            style={{ margin: "4px 10px" }}
                         >
-                            ❌
+                            Delete
                         </button>
+
+                        {todo.id === editingTodoId ? (
+                            <button onClick={handleSave}>Save</button>
+                        ) : (
+                            <button onClick={() => startEditing(todo)}>Edit</button>
+                        )}
                     </li>
                 ))}
             </ul>
