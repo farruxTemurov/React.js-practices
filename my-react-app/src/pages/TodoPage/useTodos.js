@@ -1,5 +1,6 @@
-import { useReducer, useEffect, useMemo } from "react";
+import { useReducer, useEffect, useMemo, useRef } from "react";
 import { todoReducer } from "./todoReducer";
+import { clear } from "@testing-library/user-event/dist/clear";
 
 export const useTodos = () => {
     const [todos, dispatch] = useReducer(todoReducer, [], () => {
