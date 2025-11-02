@@ -5,7 +5,7 @@ import TodoItem from "./TodoItem";
 function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
-    const [isSaved, setIsSaved] = useState(false);
+    const [feedback, setFeedback] = useState("");
 
     const { todos, dispatch, completedCount, filteredTodos } = useTodos();
     const completedRef = useRef(null);
@@ -14,6 +14,7 @@ function TodoPage() {
         if (newTodo.trim() === "") return;
         dispatch({ type: "ADD_TODO", payload: newTodo.trim() });
         setNewTodo("");
+        setFeedback("✅ Task added!")
     };
 
     const displayedTodos = filteredTodos(searchTerm);
@@ -35,14 +36,12 @@ function TodoPage() {
     }, [completedCount]);
 
     useEffect(() => {
-        setIsSaved(true);
-
         const timeout = setTimeout(() => {
-            setIsSaved(false);
+            setFeedback("");
         }, 1500);
 
         return () => clearTimeout(timeout);
-    }, [todos]);
+    }, [feedback]);
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center py-10 px-4 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500">
@@ -91,19 +90,17 @@ function TodoPage() {
                     </span>{" "}
                     of {todos.length} tasks!
                 </p>
-                {isSaved ? <p
-                    className={`transition-all duration-500 ease-in-out text-green-500 text-center mt-2 mb-2 opacity-0 
-                    ${isSaved ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}`
-                    }>💾 Saved!</p>
-                    : null}
+                <p className={`transition-all duration-500 ease-in-out text-green-500 text-center mt-2 mb-2 opacity-0 
+                    ${feedback ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}`
+                }>{feedback}</p>
 
-                {/* Todo list */}
-                <ul className="space-y-3">
-                    {displayedTodos.map((todo) => (
-                        <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-                    ))}
-                </ul>
-            </div>
+            {/* Todo list */}
+            <ul className="space-y-3">
+                {displayedTodos.map((todo) => (
+                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} setFeedback={setFeedback} />
+                ))}
+            </ul>
+        </div>
         </div >
 
     );
