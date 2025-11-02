@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TodoItem = ({ todo, dispatch, setFeedback }) => {
+const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText] = useState(todo.text);
 
@@ -8,6 +8,7 @@ const TodoItem = ({ todo, dispatch, setFeedback }) => {
         dispatch({ type: "EDIT_TODO", payload: { id: todo.id, text: editedText } });
         setIsEditing(false);
         setFeedback("✏️ Task updated!");
+        setIsVisible(true);
     };
 
     return (
@@ -31,7 +32,9 @@ const TodoItem = ({ todo, dispatch, setFeedback }) => {
             ) : (
                 <span
                     onClick={() => dispatch({ type: "TOGGLE_TODO", payload: todo.id },
-                        setFeedback(todo.done ? "⏳ Marked incomplete" : "🎉 Task completed!"))}
+                        setFeedback(todo.done ? "⏳ Marked incomplete" : "🎉 Task completed!"),
+                        setIsVisible(true)
+                    )}
                     className={`flex-1 cursor-pointer select-none text-sm sm:text-base transition 
         ${todo.done
                             ? "line-through text-gray-400 dark:text-gray-500"
@@ -43,7 +46,10 @@ const TodoItem = ({ todo, dispatch, setFeedback }) => {
 
             <div className="flex gap-2 ml-3">
                 <button
-                    onClick={() => dispatch({ type: "DELETE_TODO", payload: todo.id }, setFeedback("🗑️ Task deleted!"))}
+                    onClick={() => dispatch({ type: "DELETE_TODO", payload: todo.id },
+                        setFeedback("🗑️ Task deleted!"),
+                        setIsVisible(true)
+                    )}
                     className="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg 
                  hover:bg-red-600 active:scale-95 transition-transform"
                 >

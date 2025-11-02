@@ -6,6 +6,7 @@ function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [feedback, setFeedback] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
 
     const { todos, dispatch, completedCount, filteredTodos } = useTodos();
     const completedRef = useRef(null);
@@ -14,7 +15,8 @@ function TodoPage() {
         if (newTodo.trim() === "") return;
         dispatch({ type: "ADD_TODO", payload: newTodo.trim() });
         setNewTodo("");
-        setFeedback("✅ Task added!")
+        setFeedback("✅ Task added!");
+        setIsVisible(true);
     };
 
     const displayedTodos = filteredTodos(searchTerm);
@@ -36,12 +38,17 @@ function TodoPage() {
     }, [completedCount]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setFeedback("");
-        }, 1500);
+        if (!feedback) return;
 
-        return () => clearTimeout(timeout);
+        const hideTimer = setTimeout(() => setIsVisible(false), 1500);
+        const clearTimer = setTimeout(() => setFeedback(""), 2000);
+
+        return () => {
+            clearTimeout(hideTimer);
+            clearTimeout(clearTimer);
+        };
     }, [feedback]);
+
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center py-10 px-4 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500">
@@ -90,17 +97,18 @@ function TodoPage() {
                     </span>{" "}
                     of {todos.length} tasks!
                 </p>
-                <p className={`transition-all duration-500 ease-in-out text-green-500 text-center mt-2 mb-2 opacity-0 
-                    ${feedback ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}`
+                <p className={`transition-all duration-500 ease-in-out text-green-500 text-center mt-2 mb-2 delay-150
+                    ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`
                 }>{feedback}</p>
 
-            {/* Todo list */}
-            <ul className="space-y-3">
-                {displayedTodos.map((todo) => (
-                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} setFeedback={setFeedback} />
-                ))}
-            </ul>
-        </div>
+                {/* Todo list */}
+                <ul className="space-y-3">
+                    {displayedTodos.map((todo) => (
+                        <TodoItem key={todo.id} todo={todo} dispatch={dispatch}
+                            setFeedback={setFeedback} setIsVisible={setIsVisible} />
+                    ))}
+                </ul>
+            </div>
         </div >
 
     );
