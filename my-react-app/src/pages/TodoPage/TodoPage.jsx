@@ -6,7 +6,7 @@ function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [feedback, setFeedback] = useState("");
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(false); // state to control the animation the feedback
 
     const { todos, dispatch, completedCount, filteredTodos } = useTodos();
     const completedRef = useRef(null);
@@ -38,8 +38,7 @@ function TodoPage() {
     }, [completedCount]);
 
     useEffect(() => {
-        if (!feedback) return;
-
+        if (!feedback) return; // if there is no message, don't run.
         const hideTimer = setTimeout(() => setIsVisible(false), 1500);
         const clearTimer = setTimeout(() => setFeedback(""), 2000);
 
