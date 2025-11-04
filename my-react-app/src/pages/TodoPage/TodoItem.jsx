@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible }) => {
+const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible, setFeedbackType }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText] = useState(todo.text);
 
@@ -9,6 +9,7 @@ const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible }) => {
         setIsEditing(false);
         setFeedback("✏️ Task updated!");
         setIsVisible(true);
+        setFeedbackType("edit");
     };
 
     return (
@@ -46,10 +47,12 @@ const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible }) => {
 
             <div className="flex gap-2 ml-3">
                 <button
-                    onClick={() => dispatch({ type: "DELETE_TODO", payload: todo.id },
-                        setFeedback("🗑️ Task deleted!"),
-                        setIsVisible(true)
-                    )}
+                    onClick={() => {
+                        dispatch({ type: "DELETE_TODO", payload: todo.id });
+                        setFeedback("🗑️ Task deleted!");
+                        setIsVisible(true);
+                        setFeedbackType("delete");
+                    }}
                     className="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg 
                  hover:bg-red-600 active:scale-95 transition-transform"
                 >
