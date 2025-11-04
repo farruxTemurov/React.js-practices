@@ -7,9 +7,16 @@ function TodoPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [feedback, setFeedback] = useState("");
     const [isVisible, setIsVisible] = useState(false); // state to control the animation the feedback
+    const [feedbackType, setFeedbackType] = useState("default");
 
     const { todos, dispatch, completedCount, filteredTodos } = useTodos();
     const completedRef = useRef(null);
+    const textColorObj = {
+        add: "text-green-500",
+        edit: "text-blue-500",
+        delete: "text-red-500",
+        default: "text-gray-400"
+    };
 
     const addTodo = () => {
         if (newTodo.trim() === "") return;
@@ -17,6 +24,7 @@ function TodoPage() {
         setNewTodo("");
         setFeedback("✅ Task added!");
         setIsVisible(true);
+        setFeedbackType("add");
     };
 
     const displayedTodos = filteredTodos(searchTerm);
@@ -96,7 +104,7 @@ function TodoPage() {
                     </span>{" "}
                     of {todos.length} tasks!
                 </p>
-                <p className={`transition-all duration-500 ease-in-out text-green-500 text-center mt-2 mb-2 delay-150
+                <p className={`${textColorObj[feedbackType]} transition-all duration-500 ease-in-out text-center mt-2 mb-2 delay-150
                     ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`
                 }>{feedback}</p>
 
@@ -104,7 +112,7 @@ function TodoPage() {
                 <ul className="space-y-3">
                     {displayedTodos.map((todo) => (
                         <TodoItem key={todo.id} todo={todo} dispatch={dispatch}
-                            setFeedback={setFeedback} setIsVisible={setIsVisible} />
+                            setFeedback={setFeedback} setIsVisible={setIsVisible} setFeedbackType={setFeedbackType} />
                     ))}
                 </ul>
             </div>
