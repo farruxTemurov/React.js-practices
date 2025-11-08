@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import CounterPage from './pages/counter-page';
+import CounterPage from './pages/CounterPage';
 import TodoPage from './pages/TodoPage/TodoPage';
 
 const App = () => {
