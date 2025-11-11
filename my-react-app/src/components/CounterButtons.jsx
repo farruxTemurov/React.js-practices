@@ -12,10 +12,7 @@ export default function CounterButtons({
         <div className="flex flex-wrap gap-3 justify-center">
 
             {/* Increase */}
-            <Button
-                onClick={increase}
-                className="bg-green-500 text-white hover:bg-green-600"
-            >
+            <Button onClick={increase} variant="green">
                 Increase
             </Button>
 
@@ -23,39 +20,31 @@ export default function CounterButtons({
             <Button
                 onClick={decrease}
                 disabled={count === 0}
-                className={
-                    count === 0
-                        ? "bg-gray-300 text-gray-700"
-                        : "bg-red-500 text-white hover:bg-red-600"
-                }
+                variant={count === 0 ? "gray" : "red"}
             >
                 Decrease
             </Button>
 
             {/* Reset */}
-            <Button
-                onClick={reset}
-                className="bg-blue-500 text-white hover:bg-blue-600"
-            >
+            <Button onClick={reset} variant="blue">
                 Reset
             </Button>
 
-            {/* Auto Toggle — pill switch */}
+            {/* Auto Toggle */}
             <Button
                 onClick={() => setToggle(prev => !prev)}
-                className={`relative w-28 h-10 rounded-full ${
-                    toggle ? "bg-purple-600" : "bg-gray-400"
-                }`}
+                variant={toggle ? "toggleOn" : "toggleOff"}
+                className="relative w-28 h-10 rounded-full"
             >
                 <span
-                    className={`
-                        absolute top-1 left-1 
+                    className="
+                        absolute top-1 left-1
                         w-12 h-8 
                         flex items-center justify-center
-                        rounded-full bg-white text-black text-sm font-semibold 
-                        shadow-md 
+                        rounded-full bg-white text-black text-sm font-semibold
+                        shadow-md
                         transition-transform duration-300
-                    `}
+                    "
                     style={{
                         transform: toggle ? "translateX(100%)" : "translateX(0)"
                     }}
