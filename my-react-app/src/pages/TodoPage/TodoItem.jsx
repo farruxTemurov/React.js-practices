@@ -32,10 +32,12 @@ const TodoItem = ({ todo, dispatch, setFeedback, setIsVisible, setFeedbackType }
                 />
             ) : (
                 <span
-                    onClick={() => dispatch({ type: "TOGGLE_TODO", payload: todo.id },
-                        setFeedback(todo.done ? "⏳ Marked incomplete" : "🎉 Task completed!"),
-                        setIsVisible(true)
-                    )}
+                    onClick={() => {
+                        dispatch({ type: "TOGGLE_TODO", payload: todo.id });
+                        setFeedback(todo.done ? "⏳ Marked incomplete" : "🎉 Task completed!");
+                        setIsVisible(true);
+                        setFeedbackType("toggle");
+                    }}
                     className={`flex-1 cursor-pointer select-none text-sm sm:text-base transition 
         ${todo.done
                             ? "line-through text-gray-400 dark:text-gray-500"
