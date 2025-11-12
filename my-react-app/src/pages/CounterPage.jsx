@@ -11,7 +11,7 @@ function CounterPage() {
     const decrease = () => setCount(prev => (prev > 0 ? prev - 1 : 0));
     const reset = () => setCount(0);
 
-    useAutoIncrement(toggle, setCount);
+    useAutoIncrement(toggle, count, setCount);
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex flex-col items-center py-10 px-4 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500">
