@@ -15,6 +15,7 @@ function TodoPage() {
         add: "text-green-500",
         edit: "text-blue-500",
         delete: "text-red-500",
+        toggle: "text-gray-500",
         default: "text-gray-400"
     };
 
@@ -104,7 +105,7 @@ function TodoPage() {
                     </span>{" "}
                     of {todos.length} tasks!
                 </p>
-                <p className={`${textColorObj[feedbackType]} transition-all duration-500 ease-in-out text-center mt-2 mb-2 delay-150
+                <p className={`${textColorObj[feedbackType] || textColorObj.default} transition-all duration-500 ease-in-out text-center mt-2 mb-2 delay-150
                     ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`
                 }>{feedback}</p>
 
