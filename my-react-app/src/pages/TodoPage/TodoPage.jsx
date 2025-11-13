@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTodos } from "./useTodos";
 import TodoItem from "./TodoItem";
+import useCountAnimation from "../../hooks/useCountAnimation";
 
 function TodoPage() {
     const [newTodo, setNewTodo] = useState("");
@@ -30,21 +31,7 @@ function TodoPage() {
 
     const displayedTodos = filteredTodos(searchTerm);
 
-    useEffect(() => {
-        if (!completedRef.current) return;
-        const element = completedRef.current;
-
-        element.style.transform = "scale(1.3)";
-        element.style.opacity = "0.6";
-
-        const timeout = setTimeout(() => {
-            element.style.transform = "scale(1)";
-            element.style.opacity = "1";
-        }, 300);
-
-        return () => clearTimeout(timeout);
-
-    }, [completedCount]);
+    useCountAnimation(completedRef, completedCount);
 
     useEffect(() => {
         if (!feedback) return; // if there is no message, don't run.
